@@ -302,6 +302,44 @@
             margin: 0 auto;
         }
 
+        /* Category Icons Grid */
+        .category-icons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .category-icon-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 2px solid transparent;
+        }
+
+        .category-icon-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            border-color: var(--gold);
+        }
+
+        .category-icon-card i {
+            font-size: 64px;
+            color: var(--gold);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .category-icon-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
         /* Products Section */
         .products-section {
             background: var(--light);
@@ -367,6 +405,13 @@
             color: #ccc;
             position: relative;
             overflow: hidden;
+            object-fit: cover;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .product-badge {
@@ -448,6 +493,112 @@
 
         .product-link:hover {
             gap: 10px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        .modal-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .modal-product-card {
+            background: var(--light);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .modal-product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .modal-product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .modal-product-info {
+            padding: 20px;
+        }
+
+        .modal-product-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .modal-product-desc {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .modal-product-moq {
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 600;
         }
 
         /* Features Section */
@@ -791,12 +942,51 @@
             font-size: 14px;
         }
 
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .features-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .category-icons {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
@@ -828,22 +1018,16 @@
             .hero-buttons {
                 flex-direction: column;
             }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+            .category-icons {
+                grid-template-columns: 1fr;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .modal-content {
+                width: 95%;
+                padding: 30px 20px;
             }
-        }
-
-        .animate {
-            animation: fadeInUp 0.8s ease forwards;
+            .modal-products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
         }
     </style>
 </head>
@@ -931,156 +1115,35 @@
             <div class="section-header">
                 <div class="section-label">Our Catalog</div>
                 <h2 class="section-title">Featured Products</h2>
-                <p class="section-subtitle">Professional-grade cleaning solutions and auto detailing tools manufactured to international standards</p>
+                <p class="section-subtitle">Click on any category to browse our complete product collection</p>
             </div>
 
-            <div class="category-tabs">
-                <button class="tab-btn active" onclick="filterProducts('all')">All Products</button>
-                <button class="tab-btn" onclick="filterProducts('mop')">Mop Heads</button>
-                <button class="tab-btn" onclick="filterProducts('auto')">Auto Detailing</button>
-            </div>
-
-            <div class="products-grid" id="productsGrid">
-                <!-- Product 1: Cotton Mop Head -->
-                <div class="product-card" data-category="mop">
-                    <div class="product-image">
-                        <i class="fas fa-broom"></i>
-                        <span class="product-badge">Best Seller</span>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Mop Heads & Refills</div>
-                        <h3 class="product-name">High Quality Cotton Yarn Mop Head Replacement</h3>
-                        <div class="product-specs">
-                            <span class="spec-tag">100% Cotton</span>
-                            <span class="spec-tag">8" Width</span>
-                            <span class="spec-tag">400g</span>
-                            <span class="spec-tag">Wet & Dry</span>
-                        </div>
-                        <p style="font-size: 14px; color: var(--text-light); margin-bottom: 15px; line-height: 1.6;">
-                            Premium cotton yarn mop head for home, office, and hotel use. Loop end and cut end options available. Sponge absorbent, lint-free design perfect for commercial floor cleaning.
-                        </p>
-                        <div class="product-footer">
-                            <span class="product-moq">MOQ: <strong>480 PCS</strong></span>
-                            <a href="#contact" class="product-link">Inquire Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
+            <!-- Category Icon Cards -->
+            <div class="category-icons">
+                <div class="category-icon-card" onclick="openModal('mop')">
+                    <i class="fas fa-broom"></i>
+                    <h3>Mop Heads & Refills</h3>
                 </div>
-
-                <!-- Auto Detailing Products -->
-                <div class="product-card" data-category="auto">
-                    <div class="product-image">
-                        <i class="fas fa-car"></i>
-                        <span class="product-badge" style="background: var(--gold); color: var(--primary);">Hot</span>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Auto Detailing Tools</div>
-                        <h3 class="product-name">Professional Detailing Brush Set</h3>
-                        <div class="product-specs">
-                            <span class="spec-tag">Chain Brush</span>
-                            <span class="spec-tag">Wheel Brush</span>
-                            <span class="spec-tag">Long Handle</span>
-                        </div>
-                        <p style="font-size: 14px; color: var(--text-light); margin-bottom: 15px; line-height: 1.6;">
-                            Complete auto detailing brush collection including chain brush, microfiber wheel brush, long handle wheel brush, and extendable car brush for professional car care.
-                        </p>
-                        <div class="product-footer">
-                            <span class="product-moq">MOQ: <strong>500 PCS</strong></span>
-                            <a href="#contact" class="product-link">Inquire Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="auto">
-                    <div class="product-image">
-                        <i class="fas fa-hand-sparkles"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Auto Detailing Tools</div>
-                        <h3 class="product-name">Chenille Hand Mitt & Microfiber Towel</h3>
-                        <div class="product-specs">
-                            <span class="spec-tag">Chenille</span>
-                            <span class="spec-tag">Microfiber</span>
-                            <span class="spec-tag">5PC Pack</span>
-                            <span class="spec-tag">Chamois</span>
-                        </div>
-                        <p style="font-size: 14px; color: var(--text-light); margin-bottom: 15px; line-height: 1.6;">
-                            Ultra-soft chenille hand mitts and premium microfiber towels. Available in 5-piece packs and chamois leather options. Perfect for scratch-free washing and drying.
-                        </p>
-                        <div class="product-footer">
-                            <span class="product-moq">MOQ: <strong>300 Sets</strong></span>
-                            <a href="#contact" class="product-link">Inquire Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="auto">
-                    <div class="product-image">
-                        <i class="fas fa-spray-can"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Auto Detailing Tools</div>
-                        <h3 class="product-name">Trigger Sprayer & Tyre Shine Kit</h3>
-                        <div class="product-specs">
-                            <span class="spec-tag">Trigger Spray</span>
-                            <span class="spec-tag">Tyre Applicator</span>
-                            <span class="spec-tag">Magic Sponge</span>
-                        </div>
-                        <p style="font-size: 14px; color: var(--text-light); margin-bottom: 15px; line-height: 1.6;">
-                            Professional trigger sprayers, tyre shine applicator sponges, and magic cleaning sponges. Complete solution for exterior car detailing and tire dressing.
-                        </p>
-                        <div class="product-footer">
-                            <span class="product-moq">MOQ: <strong>1000 PCS</strong></span>
-                            <a href="#contact" class="product-link">Inquire Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="auto">
-                    <div class="product-image">
-                        <i class="fas fa-brush"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Auto Detailing Tools</div>
-                        <h3 class="product-name">Carpet Brush & Extendable Car Brush</h3>
-                        <div class="product-specs">
-                            <span class="spec-tag">Carpet Brush</span>
-                            <span class="spec-tag">Extendable</span>
-                            <span class="spec-tag">Interior</span>
-                        </div>
-                        <p style="font-size: 14px; color: var(--text-light); margin-bottom: 15px; line-height: 1.6;">
-                            Heavy-duty carpet brushes for interior detailing and extendable car brushes for reaching difficult areas. Essential tools for professional auto detailing services.
-                        </p>
-                        <div class="product-footer">
-                            <span class="product-moq">MOQ: <strong>500 PCS</strong></span>
-                            <a href="#contact" class="product-link">Inquire Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card" data-category="mop">
-                    <div class="product-image">
-                        <i class="fas fa-fill-drip"></i>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Mop Heads & Refills</div>
-                        <h3 class="product-name">Commercial Heavy Duty Cotton Mop Head</h3>
-                        <div class="product-specs">
-                            <span class="spec-tag">Heavy Duty</span>
-                            <span class="spec-tag">Loop End</span>
-                            <span class="spec-tag">Commercial</span>
-                        </div>
-                        <p style="font-size: 14px; color: var(--text-light); margin-bottom: 15px; line-height: 1.6;">
-                            Heavy-duty commercial cotton mop head designed for chain stores and industrial floor cleaning. Superior absorbency and durability for high-traffic areas.
-                        </p>
-                        <div class="product-footer">
-                            <span class="product-moq">MOQ: <strong>480 PCS</strong></span>
-                            <a href="#contact" class="product-link">Inquire Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
+                <div class="category-icon-card" onclick="openModal('auto')">
+                    <i class="fas fa-car"></i>
+                    <h3>Auto Detailing Tools</h3>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Products</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-products-grid" id="modalProductsGrid">
+                <!-- Products will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
 
     <!-- Features Section -->
     <section class="section features-section" id="features">
@@ -1312,29 +1375,110 @@
     </footer>
 
     <script>
-        // Product Filter
-        function filterProducts(category) {
-            const cards = document.querySelectorAll('.product-card');
-            const buttons = document.querySelectorAll('.tab-btn');
-            
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 50);
-                } else {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        card.style.display = 'none';
-                    }, 300);
+        // Product Data with Free Stock Images
+        const products = {
+            mop: [
+                {
+                    name: 'High Quality Cotton Yarn Mop Head',
+                    image: 'https://images.unsplash.com/photo-1584622281867-4ef3f3e6b0ed?w=400&h=300&fit=crop',
+                    desc: '100% Cotton, 8" Width, 400g, Wet & Dry',
+                    moq: 'MOQ: 480 PCS'
+                },
+                {
+                    name: 'Commercial Heavy Duty Cotton Mop',
+                    image: 'https://images.unsplash.com/photo-1584622281892-8e8f17c55e6a?w=400&h=300&fit=crop',
+                    desc: 'Heavy Duty, Loop End, Commercial Grade',
+                    moq: 'MOQ: 480 PCS'
+                },
+                {
+                    name: 'Premium Loop End Mop Head',
+                    image: 'https://images.unsplash.com/photo-1564466809058-bf4114d55352?w=400&h=300&fit=crop',
+                    desc: 'Superior Absorbency, Lint-Free Design',
+                    moq: 'MOQ: 500 PCS'
                 }
+            ],
+            auto: [
+                {
+                    name: 'Professional Detailing Brush Set',
+                    image: 'https://images.unsplash.com/photo-1584345604622-e3cd3ba77eca?w=400&h=300&fit=crop',
+                    desc: 'Chain Brush, Wheel Brush, Long Handle',
+                    moq: 'MOQ: 500 PCS'
+                },
+                {
+                    name: 'Chenille Hand Mitt & Microfiber Towel',
+                    image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=300&fit=crop',
+                    desc: 'Ultra-soft Chenille, 5PC Pack, Chamois',
+                    moq: 'MOQ: 300 Sets'
+                },
+                {
+                    name: 'Trigger Sprayer & Tyre Shine Kit',
+                    image: 'https://images.unsplash.com/photo-1559028615-cd4628902d4a?w=400&h=300&fit=crop',
+                    desc: 'Trigger Spray, Tyre Applicator, Magic Sponge',
+                    moq: 'MOQ: 1000 PCS'
+                },
+                {
+                    name: 'Carpet Brush & Extendable Car Brush',
+                    image: 'https://images.unsplash.com/photo-1584622281950-fde4b4b8d8cb?w=400&h=300&fit=crop',
+                    desc: 'Heavy-Duty Carpet, Extendable Interior',
+                    moq: 'MOQ: 500 PCS'
+                },
+                {
+                    name: 'Microfiber Wheel Cleaning Brush',
+                    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
+                    desc: 'Professional Grade, Soft Bristles',
+                    moq: 'MOQ: 600 PCS'
+                },
+                {
+                    name: 'Complete Car Wash Kit',
+                    image: 'https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=400&h=300&fit=crop',
+                    desc: 'All-in-One Solution, Professional Tools',
+                    moq: 'MOQ: 400 Sets'
+                }
+            ]
+        };
+
+        // Modal Functions
+        function openModal(category) {
+            const modal = document.getElementById('productModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalProductsGrid = document.getElementById('modalProductsGrid');
+            
+            // Set title
+            modalTitle.textContent = category === 'mop' ? 'Mop Heads & Refills' : 'Auto Detailing Tools';
+            
+            // Clear previous products
+            modalProductsGrid.innerHTML = '';
+            
+            // Add products for this category
+            products[category].forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'modal-product-card';
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="modal-product-image" onerror="this.src='https://via.placeholder.com/250x200?text=${encodeURIComponent(product.name)}'">
+                    <div class="modal-product-info">
+                        <div class="modal-product-name">${product.name}</div>
+                        <div class="modal-product-desc">${product.desc}</div>
+                        <div class="modal-product-moq">${product.moq}</div>
+                    </div>
+                `;
+                modalProductsGrid.appendChild(productCard);
             });
+            
+            // Show modal
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target == modal) {
+                modal.classList.remove('show');
+            }
         }
 
         // Smooth Scroll
@@ -1366,7 +1510,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.product-card, .feature-card').forEach(el => {
+        document.querySelectorAll('.category-icon-card, .feature-card').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'all 0.6s ease';
